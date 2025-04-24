@@ -5,7 +5,7 @@ namespace PersianResumeBuilder.DTOs
     public class RegisterDTO
     {
         public string FullName { get; set; }
-        public int Phone { get; set; }
+        public string Phone { get; set; }
         public string Email { get; set; }
 
         [DataType(DataType.Password)]
