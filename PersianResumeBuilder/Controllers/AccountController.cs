@@ -19,12 +19,12 @@ namespace PersianResumeBuilder.Controllers
             return View();
         }
 
-        [HttpPost]
+        [HttpPost,ValidateAntiForgeryToken]
         public IActionResult Register(RegisterDTO register)
         {
             if (ModelState.IsValid) 
             {
-                if (!_context.users.Any(p => p.Phone == register.Phone.Trim()))
+                if (!_context.users.Any(p => p.Phone == register.Phone.Trim())) 
                 {
                     User user = new User()
                     {
@@ -32,8 +32,12 @@ namespace PersianResumeBuilder.Controllers
                         Phone = register.Phone,
                         Email = register.Email,
                         Password = register.Password,
-
                     };
+
+                    _context.users.Add(user);
+                    _context.SaveChanges();
+
+                    return RedirectToAction("Index", "Home");
                 }
             }
             return View();
