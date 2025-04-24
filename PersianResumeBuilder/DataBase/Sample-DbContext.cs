@@ -11,6 +11,8 @@ namespace PersianResumeBuilder.DataBase
         }
         public DbSet<Customer> Customers { get; set; }
         public DbSet<InformationCustomerProfile> informationCustomerProfiles { get; set; }
+        public DbSet<User> users { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
