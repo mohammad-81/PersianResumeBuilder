@@ -1,3 +1,5 @@
+using PersianResumeBuilder.DataBase;
+
 namespace PersianResumeBuilder
 {
     public class Program
@@ -8,7 +10,7 @@ namespace PersianResumeBuilder
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
-
+            builder.Services.AddDbContext<Sample_DbContext>();
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
