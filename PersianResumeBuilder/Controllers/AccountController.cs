@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Isopoh.Cryptography.Argon2;
+using Microsoft.AspNetCore.Mvc;
 using PersianResumeBuilder.DataBase;
 using PersianResumeBuilder.DTOs;
 using PersianResumeBuilder.Entities;
@@ -31,7 +32,7 @@ namespace PersianResumeBuilder.Controllers
                         FullName = register.FullName,
                         Phone = register.Phone,
                         Email = register.Email,
-                        Password = register.Password,
+                        Password =Argon2.Hash(register.Password),
                     };
 
                     _context.users.Add(user);
