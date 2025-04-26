@@ -14,7 +14,8 @@ namespace PersianResumeBuilder.DTOs
         [DataType(DataType.Password)]
         [Compare("Password",ErrorMessage ="رمز وارد شده یکسان نیست")]
         public string Re_Password { get; set; }
-
+        [Required(ErrorMessage ="لطفا قوانین سایت رو تایید کنید")]
+        public bool AcceptTerms { get; set; }
 
     }
 }
