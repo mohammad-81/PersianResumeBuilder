@@ -9,7 +9,6 @@ namespace PersianResumeBuilder.DTOs
         public string EmailOrPhone { get; set; }
 
         [Required(ErrorMessage = "لطفاً رمز عبور را وارد کنید.")]
-        [MinLength(6, ErrorMessage = "رمز عبور باید حداقل 6 کاراکتر باشد.")]
         public string Password { get; set; }
     }
 }

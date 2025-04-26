@@ -1,0 +1,21 @@
+﻿@model PersianResumeBuilder.DTOs.LoginDTO
+
+
+<form asp-controller="Account" asp-action="Login" method="post" class="container p-4 border rounded bg-light">
+    <h2 class="text-center mb-4"> ورود</h2>
+
+    
+    <div class="mb-3">
+        <label asp-for="EmailOrPhone" class="form-label">ایمیل/موبایل</label>
+        <input type="text" asp-for="EmailOrPhone" class="form-control" />
+        <span class="text-danger" asp-validation-for="EmailOrPhone"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Password" class="form-label">رمز عبور</label>
+        <input type="password" asp-for="Password" class="form-control"/>
+        <span class="text-danger" asp-validation-for="Password"></span>
+    </div>
+    <button type="submit" class="btn btn-warning w-100">‌ورود</button>
+
+</form>
