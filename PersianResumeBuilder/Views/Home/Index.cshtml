@@ -1,8 +1,17 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
-
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="text-center mt-3">
+    @if (User.Identity.IsAuthenticated)
+    {
+        <h3>خوش آمدید، @User.Identity.Name!</h3>
+        <p>شما وارد حساب خود شده‌اید.</p>
+        <a asp-controller="Account" asp-action="Logout" class="btn btn-danger">خروج</a>
+    }
+    else
+    {
+        <h3>شما هنوز وارد نشده‌اید</h3>
+        <p>برای دسترسی به امکانات سایت، لطفاً وارد شوید.</p>
+        <a asp-controller="Account" asp-action="Login" class="btn btn-primary">ورود</a>
+    }
 </div>

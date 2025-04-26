@@ -16,6 +16,11 @@
         <input type="password" asp-for="Password" class="form-control"/>
         <span class="text-danger" asp-validation-for="Password"></span>
     </div>
+    <label asp-for="RememberMe">
+        <input type="checkbox" asp-for="RememberMe">
+        مرا به خاطر بسپار
+    </label>
+
     <button type="submit" class="btn btn-warning w-100">‌ورود</button>
 
 </form>
