@@ -1,8 +1,12 @@
 ﻿using Isopoh.Cryptography.Argon2;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using PersianResumeBuilder.DataBase;
 using PersianResumeBuilder.DTOs;
 using PersianResumeBuilder.Entities;
+using System.Security.Claims;
 
 namespace PersianResumeBuilder.Controllers
 {
@@ -14,13 +18,14 @@ namespace PersianResumeBuilder.Controllers
             _context = context;
         }
 
+        #region Register
         [HttpGet]
         public IActionResult Register()
         {
             return View();
         }
 
-        [HttpPost,ValidateAntiForgeryToken]
+        [HttpPost, ValidateAntiForgeryToken]
         public IActionResult Register(RegisterDTO register)
         {
             if (ModelState.IsValid)
@@ -57,5 +62,54 @@ namespace PersianResumeBuilder.Controllers
             return View(register);
         }
 
+        #endregion
+        #region Login
+
+        [HttpGet]
+        public IActionResult Login()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Login(LoginDTO login)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(login);
+            }
+
+            // استفاده از Asynchronous Query
+            var user = await _context.users
+                .FirstOrDefaultAsync(p => p.Email == login.EmailOrPhone || p.Phone == login.EmailOrPhone);
+
+            if (user == null)
+            {
+                ModelState.AddModelError("EmailOrPhone", "کاربری با این اطلاعات یافت نشد.");
+                return View(login);
+            }
+
+            // بررسی رمز عبور
+            if (!Argon2.Verify(user.Password, login.Password))
+            {
+                ModelState.AddModelError("Password", "رمز عبور اشتباه است.");
+                return View(login);
+            }
+
+            // احراز هویت با کوکی، به صورت Async
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.Email, user.Email ?? ""),
+                new Claim(ClaimTypes.MobilePhone, user.Phone),
+            };
+
+            var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+            var principal = new ClaimsPrincipal(identity);
+
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
+
+            return RedirectToAction("Index","Home");
+        }
+        #endregion
     }
 }
