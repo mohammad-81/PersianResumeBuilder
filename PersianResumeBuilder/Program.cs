@@ -1,3 +1,4 @@
+﻿using Microsoft.AspNetCore.Authentication.Cookies;
 using PersianResumeBuilder.DataBase;
 
 namespace PersianResumeBuilder
@@ -11,8 +12,18 @@ namespace PersianResumeBuilder
             // Add services to the container.
             builder.Services.AddControllersWithViews();
             builder.Services.AddDbContext<Sample_DbContext>();
-            var app = builder.Build();
+            builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+            .AddCookie(options =>
+            {
+                options.LoginPath = "/Account/Login";  // مسیر صفحه ورود
+                options.LogoutPath = "/Account/Logout"; // مسیر خروج
+                options.ExpireTimeSpan = TimeSpan.FromDays(7); // زمان اعتبار کوکی (۷ روز)
+                options.SlidingExpiration = true; // تمدید اعتبار در صورت فعالیت کاربر
+            });
+            builder.Services.AddAuthorization(); // فعال‌سازی سیستم مجوزدهی
 
+
+            var app = builder.Build();
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
             {
