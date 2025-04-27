@@ -1,5 +1,4 @@
 🔹 **Title:** Identity-Based Authentication & User Management in MVC  
-🔹 **Description:**  
 This section of the project handles **user registration, login, and logout** utilizing **ASP.NET Identity**, providing a secure and structured authentication system. Users can create accounts, log in securely, and manage their sessions efficiently.  
 
 📌 **Key Features:**  
